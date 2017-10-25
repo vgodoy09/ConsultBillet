@@ -1,8 +1,7 @@
 package br.com.consultbilletregistry.control;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.consultbilletregistry.facade.Facade;
 import br.com.consultbilletregistry.facade.FacadeSystem;
-import br.com.consultbilletregistry.model.BilletRegistryResponse;
 import br.com.consultbilletregistry.view.ViewHelperBoleto;
 
 @WebServlet("/ControlarConsulta")
@@ -30,10 +28,7 @@ public class ControlarConsulta extends HttpServlet {
 			helperBoleto.setDados(request);
 			try {
 				Facade fs = new FacadeSystem();
-				BilletRegistryResponse billetRegistry = fs.getBilletRegistry(helperBoleto.getDados());
-				List<BilletRegistryResponse> lista = new ArrayList<BilletRegistryResponse>();
-				lista.add(billetRegistry);
-				request.setAttribute("listar", lista);
+				request.setAttribute("listar", Arrays.asList(fs.getBilletRegistry(helperBoleto.getDados())));
 				request.getRequestDispatcher("index.jsp").forward(request, response);
 			} catch (Exception e) {
 				request.getRequestDispatcher("error.jsp").forward(request, response);
